@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import express from "express";
 import {
+  getBy,
   saveDoctor,
   saveFamilyMember,
   saveFamilyUnit,
@@ -12,6 +13,7 @@ import {
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Post
 app.post("/familyUnit", async (req, res) => {
   if (req.body.ssn1 && req.body.ssn2) {
     const saved = await saveFamilyUnit(req.body.ssn1, req.body.ssn2);
@@ -45,7 +47,7 @@ app.post("/familyMember", async (req, res) => {
       res.send(error);
     }
   } else {
-    res.sendStatus(404);
+    res.sendStatus(400);
   }
 });
 
@@ -58,7 +60,7 @@ app.post("/doctor", async (req, res) => {
       res.send(error);
     }
   } else {
-    res.sendStatus(404);
+    res.sendStatus(400);
   }
 });
 
@@ -79,9 +81,10 @@ app.post("/illness", async (req, res) => {
       res.send(error);
     }
   } else {
-    res.sendStatus(404);
+    res.sendStatus(400);
   }
 });
+
 app.post("/medication", async (req, res) => {
   if (
     req.body.medicineName &&
@@ -99,7 +102,7 @@ app.post("/medication", async (req, res) => {
       res.send(error);
     }
   } else {
-    res.sendStatus(404);
+    res.sendStatus(400);
   }
 });
 
@@ -124,7 +127,25 @@ app.post("/medicalRecords", async (req, res) => {
       res.send(error);
     }
   } else {
-    res.sendStatus(404);
+    res.sendStatus(400);
+  }
+});
+
+// Get
+app.get("/get/:tableName/:field/:id", async (req, res) => {
+  if (req.params.tableName && req.params.field && req.params.id) {
+    const retrieved = await getBy(
+      req.params.tableName,
+      req.params.field,
+      req.params.id
+    );
+    if (retrieved && retrieved[0]) {
+      res.send(retrieved[0]);
+    } else {
+      res.sendStatus(404);
+    }
+  } else {
+    res.sendStatus(400);
   }
 });
 app.listen(3001, () => {});

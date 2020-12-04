@@ -64,6 +64,16 @@ export const saveMedicalRecords = async (
   );
 };
 
+export const getBy = async (
+  tableName: string,
+  fieldName: string,
+  id: string
+) => {
+  return await executeQuery(
+    `SELECT * from ${tableName} where ${fieldName} = ${id}`
+  );
+};
+
 const connection = async () =>
   await mysql.createConnection({
     user: "root",

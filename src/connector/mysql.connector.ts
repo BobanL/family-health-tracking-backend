@@ -63,7 +63,6 @@ export const saveMedicalRecords = async (
     `INSERT INTO med_rec (SSN, Date, Reason, Diagnosis, Dnum) VALUES (${patientSSN}, '${date}', '${reason}', ${illnessNumber}, ${doctorNumber});`
   );
 };
-
 export const getBy = async (
   tableName: string,
   fieldName: string,

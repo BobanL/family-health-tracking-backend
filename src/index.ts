@@ -9,10 +9,11 @@ import {
   saveMedicalRecords,
   saveMedication,
 } from "./connector/mysql.connector";
+import cors from "cors";
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cors());
 // Post
 app.post("/familyUnit", async (req, res) => {
   if (req.body.ssn1 && req.body.ssn2) {

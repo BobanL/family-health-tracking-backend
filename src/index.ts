@@ -13,37 +13,18 @@ import cors from "cors";
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cors());
 // Post
-app.post("/familyUnit", async (req, res) => {
-  if (req.body.ssn1 && req.body.ssn2) {
-    const saved = await saveFamilyUnit(req.body.ssn1, req.body.ssn2);
-    console.log(saved);
-    res.send(saved);
-  }
-});
-
-app.post("/familyMember", async (req, res) => {
-  if (
-    req.body.ssn &&
-    req.body.firstName &&
-    req.body.lastName &&
-    req.body.sex &&
-    req.body.birthDay &&
-    req.body.address
-  ) {
+app.post("/fam_unit", async (req, res) => {
+  console.log(req.body);
+  if (req.body.Parent1_SSN && req.body.Parent2_SSN) {
     try {
-      await saveFamilyMember(
-        req.body.ssn,
-        req.body.firstName,
-        req.body.middleName || null,
-        req.body.lastName,
-        req.body.familyUnit || null,
-        req.body.sex,
-        req.body.birthDay,
-        req.body.address
+      const saved = await saveFamilyUnit(
+        req.body.Parent1_SSN,
+        req.body.Parent2_SSN
       );
-      res.sendStatus(200);
+      res.send(saved);
     } catch (error) {
       res.send(error);
     }
@@ -52,11 +33,40 @@ app.post("/familyMember", async (req, res) => {
   }
 });
 
-app.post("/doctor", async (req, res) => {
-  if (req.body.doctorName && req.body.doctorLocation) {
+app.post("/family_member", async (req, res) => {
+  if (
+    req.body.SSN &&
+    req.body.Fname &&
+    req.body.Lname &&
+    req.body.Sex &&
+    req.body.Bdate &&
+    req.body.Address
+  ) {
     try {
-      await saveDoctor(req.body.doctorName, req.body.doctorLocation);
-      res.sendStatus(200);
+      const saved = await saveFamilyMember(
+        req.body.SSN,
+        req.body.Fname,
+        req.body.Minit || null,
+        req.body.Lname,
+        req.body.Fam_unit || null,
+        req.body.Sex,
+        req.body.Bdate,
+        req.body.Address
+      );
+      res.send(saved);
+    } catch (error) {
+      res.send(error);
+    }
+  } else {
+    res.sendStatus(400);
+  }
+});
+
+app.post("/doctors", async (req, res) => {
+  if (req.body.Dname && req.body.Dlocation) {
+    try {
+      const saved = await saveDoctor(req.body.Dname, req.body.Dlocation);
+      res.send(saved);
     } catch (error) {
       res.send(error);
     }
@@ -66,18 +76,14 @@ app.post("/doctor", async (req, res) => {
 });
 
 app.post("/illness", async (req, res) => {
-  if (
-    req.body.illnessName &&
-    req.body.medicationNumber &&
-    req.body.illnessDescription
-  ) {
+  if (req.body.Iname && req.body.Med_num && req.body.Idesc) {
     try {
-      await saveIllness(
-        req.body.illnessName,
-        req.body.medicationNumber,
-        req.body.illnessDescription
+      const saved = await saveIllness(
+        req.body.Iname,
+        req.body.Med_num,
+        req.body.Idesc
       );
-      res.sendStatus(200);
+      res.send(saved);
     } catch (error) {
       res.send(error);
     }
@@ -86,19 +92,15 @@ app.post("/illness", async (req, res) => {
   }
 });
 
-app.post("/medication", async (req, res) => {
-  if (
-    req.body.medicineName &&
-    req.body.medicineType &&
-    req.body.medicineEffects
-  ) {
+app.post("/medications", async (req, res) => {
+  if (req.body.name && req.body.type && req.body.effects) {
     try {
-      await saveMedication(
-        req.body.medicineName,
-        req.body.medicineType,
+      const saved = await saveMedication(
+        req.body.name,
+        req.body.type,
         req.body.medicineEffects
       );
-      res.sendStatus(200);
+      res.send(saved);
     } catch (error) {
       res.send(error);
     }
@@ -107,23 +109,23 @@ app.post("/medication", async (req, res) => {
   }
 });
 
-app.post("/medicalRecords", async (req, res) => {
+app.post("/med_rec", async (req, res) => {
   if (
-    req.body.patientSSN &&
-    req.body.date &&
-    req.body.reason &&
-    req.body.illnessNumber &&
-    req.body.doctorNumber
+    req.body.SSN &&
+    req.body.Date &&
+    req.body.Reason &&
+    req.body.I_num &&
+    req.body.Dnum
   ) {
     try {
-      await saveMedicalRecords(
-        req.body.patientSSN,
-        req.body.date,
-        req.body.reason,
-        req.body.illnessNumber,
-        req.body.doctorNumber
+      const saved = await saveMedicalRecords(
+        req.body.SSN,
+        req.body.Date,
+        req.body.Reason,
+        req.body.I_num,
+        req.body.Dnum
       );
-      res.sendStatus(200);
+      res.send(saved);
     } catch (error) {
       res.send(error);
     }

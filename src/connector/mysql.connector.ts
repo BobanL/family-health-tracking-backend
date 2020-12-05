@@ -28,9 +28,10 @@ export const saveDoctor = async (
   doctorName: string,
   doctorLocation: string
 ) => {
-  return await executeQuery(
+  const queryResponse = await executeQuery(
     `INSERT INTO doctors (Dname, Dlocation) VALUES ('${doctorName}', '${doctorLocation}');`
   );
+  return { id: (queryResponse[0] as ResultSetHeader).insertId };
 };
 
 export const saveIllness = async (
@@ -38,9 +39,10 @@ export const saveIllness = async (
   medicationNumber: number,
   illnessDescription: string
 ) => {
-  return await executeQuery(
+  const queryResponse = await executeQuery(
     `INSERT INTO illness (Iname, Med_num, Idesc) VALUES ('${illnessName}', ${medicationNumber}, '${illnessDescription}');`
   );
+  return { id: (queryResponse[0] as ResultSetHeader).insertId };
 };
 
 export const saveMedication = async (
@@ -48,8 +50,9 @@ export const saveMedication = async (
   medicineType: string,
   medicineEffects: string
 ) => {
-  return await executeQuery(`INSERT INTO medications (name, type, effects) VALUES ('${medicineName}', '${medicineType}', '${medicineEffects}');
+  const queryResponse = await executeQuery(`INSERT INTO medications (name, type, effects) VALUES ('${medicineName}', '${medicineType}', '${medicineEffects}');
 `);
+  return { id: (queryResponse[0] as ResultSetHeader).insertId };
 };
 
 export const saveMedicalRecords = async (
@@ -60,7 +63,7 @@ export const saveMedicalRecords = async (
   doctorNumber: number
 ) => {
   return await executeQuery(
-    `INSERT INTO med_rec (SSN, Date, Reason, Diagnosis, Dnum) VALUES (${patientSSN}, '${date}', '${reason}', ${illnessNumber}, ${doctorNumber});`
+    `INSERT INTO med_rec (SSN, Date, Reason, I_num, Dnum) VALUES (${patientSSN}, '${date}', '${reason}', ${illnessNumber}, ${doctorNumber});`
   );
 };
 export const getBy = async (

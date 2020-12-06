@@ -77,6 +77,10 @@ export const getBy = async (
   );
 };
 
+export const procedure = async (procedureName: string, params: string) => {
+  console.log(`Procedure CALL ${procedureName}(${params})`);
+  return await executeQuery(`CALL ${procedureName}(${params})`);
+};
 const connection = async () =>
   await mysql.createConnection({
     user: "root",

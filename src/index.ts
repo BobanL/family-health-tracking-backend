@@ -2,6 +2,7 @@ import bodyParser from "body-parser";
 import express from "express";
 import {
   getBy,
+  procedure,
   saveDoctor,
   saveFamilyMember,
   saveFamilyUnit,
@@ -149,6 +150,16 @@ app.get("/get/:tableName/:field/:id", async (req, res) => {
     }
   } else {
     res.sendStatus(400);
+  }
+});
+// Get
+app.get("/getBy/:procedureName", async (req, res) => {
+  const params = req.body.params || "";
+  const retrieved = await procedure(req.params.procedureName, params);
+  if (retrieved && retrieved[0]) {
+    res.send(retrieved[0]);
+  } else {
+    res.sendStatus(404);
   }
 });
 app.listen(3001, () => {});

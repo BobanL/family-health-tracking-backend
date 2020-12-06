@@ -71,6 +71,7 @@ export const getBy = async (
   fieldName: string,
   id: string
 ) => {
+  console.log(`Search on ${tableName} for ${fieldName}:${id}`);
   return await executeQuery(
     `SELECT * from ${tableName} where ${fieldName} = ${id}`
   );

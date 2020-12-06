@@ -152,8 +152,7 @@ app.get("/get/:tableName/:field/:id", async (req, res) => {
     res.sendStatus(400);
   }
 });
-// Get
-app.get("/getBy/:procedureName", async (req, res) => {
+app.post("/getBy/:procedureName", async (req, res) => {
   const params = req.body.params || "";
   const retrieved = await procedure(req.params.procedureName, params);
   if (retrieved && retrieved[0]) {

@@ -153,8 +153,14 @@ app.get("/get/:tableName/:field/:id", async (req, res) => {
   }
 });
 app.post("/getBy/:procedureName", async (req, res) => {
+  console.log(req.body);
   const params = req.body.params || "";
-  const retrieved = await procedure(req.params.procedureName, params);
+  let retrieved;
+  try {
+    retrieved = await procedure(req.params.procedureName, params);
+  } catch (error) {
+    res.send(error);
+  }
   if (retrieved && retrieved[0]) {
     res.send(retrieved[0]);
   } else {

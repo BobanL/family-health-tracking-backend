@@ -1,9 +1,8 @@
 # family-health-tracking-backend
-This goes along with the front end project https://github.com/BobanL/family-health-tracking
+This is the backend to this [project](https://github.com/BobanL/family-health-tracking)
 
 
-To start: 
-
+# Getting started
 npm run build
 
 npm run start
